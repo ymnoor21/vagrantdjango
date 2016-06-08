@@ -1,0 +1,29 @@
+{% extends "posts/base.html" %}
+
+{% block head_title %}
+    Post Detail | {{ block.super }}
+{% endblock %}
+
+{% block content %}
+            <div class="col-sm-6 col-sm-offset-3">
+                <h1></h1>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="thumbnail">
+                            <div class="caption">
+                                {% if post.image %}
+                                <img src="{{ post.image.url }}" class="img-responsive"/>
+                                {% endif %}
+                                <h3>{{ post.title }} <small>{{ post.updated_at }} ago</small></h3>
+                                <p>{{ post.content }}</p>
+                                <p>
+                                    <a href="{% url 'posts:list' %}" class="btn btn-primary" role="button">List</a>
+                                    <a href="{% url 'posts:edit' post.slug %}" class="btn btn-primary" role="button">Edit</a>
+                                    <a href="{% url 'posts:delete' post.slug %}" class="btn btn-primary" role="button">Delete</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{% endblock content %}

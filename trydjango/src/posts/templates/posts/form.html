@@ -1,0 +1,37 @@
+{% extends "posts/base.html" %}
+
+{% block head_title %}
+    {% if cmd == 'edit' %}
+        Edit Post | {{ block.super }}
+    {% else %}
+        Create Post | {{ block.super }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+            <div class="col-sm-6 col-sm-offset-3">
+                {% if cmd == 'edit' %}
+                <h1>Edit post: {{ post.slug }}</h1>
+                {% elif cmd == 'create' %}
+                <h1>Create Post</h1>
+                {% endif %}
+                <form method="POST"
+                    {% if cmd == 'create' %}
+                        action="{% url 'posts:create' %}"
+                    {% else %}
+                        action="{% url 'posts:edit' post.slug %}"
+                    {% endif %}
+                    enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" class="btn btn-default" {% if cmd == 'create' %} value="Create" {% else %} value="Update" {% endif %}/>
+                </form>
+                <p>
+                    <a href="{% url 'posts:list' %}" class="btn btn-primary" role="button">List</a>
+                    {% if cmd == 'edit' %}
+                    <a href="{% url 'posts:detail' post.slug %}" class="btn btn-primary" role="button">Detail</a>
+                    <a href="{% url 'posts:delete' post.slug %}" class="btn btn-primary" role="button">Delete</a>
+                    {% endif %}
+                </p>
+            </div>
+{% endblock content %}
